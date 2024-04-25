@@ -37,7 +37,8 @@ public class Usuario implements Serializable{
 	
 	public Usuario() {}
 	
-	public Usuario(String nome, LocalDate dataNascimento) {
+	public Usuario(UUID id, String nome, LocalDate dataNascimento) {
+		this.id = id;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 	}
