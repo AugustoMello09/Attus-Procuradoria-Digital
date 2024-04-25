@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.model.Endereco;
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.model.Usuario;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,8 @@ public class UsuarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private UUID id;
+	
+	@Size(max = 60, message = "tamanho máximo de 60 caracteres.")
 	private String nome;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")

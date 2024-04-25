@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.dtos.UsuarioDTO;
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.services.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
@@ -40,20 +41,20 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioDTO dto) {
 		var newObj = service.create(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).body(newObj);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UsuarioDTO> update(@RequestBody UsuarioDTO usuarioDTO, @PathVariable UUID id) {
+	public ResponseEntity<UsuarioDTO> update(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable UUID id) {
 		service.update(usuarioDTO, id);
 		return ResponseEntity.ok().build();
 	}
 	
 	@PatchMapping(value = "/{id}")
-	public ResponseEntity<UsuarioDTO> patchUpdate(@RequestBody UsuarioDTO usuarioDTO, @PathVariable UUID id) {
+	public ResponseEntity<UsuarioDTO> patchUpdate(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable UUID id) {
 		service.patch(usuarioDTO, id);
 		return ResponseEntity.ok().build();
 	}

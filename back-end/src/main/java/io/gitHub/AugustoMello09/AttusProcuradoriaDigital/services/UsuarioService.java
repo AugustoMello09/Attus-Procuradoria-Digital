@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.dtos.UsuarioDTO;
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.model.Usuario;
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.repositories.UsuarioRepository;
+import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,7 +23,7 @@ public class UsuarioService {
 	@Transactional(readOnly = true)
 	public UsuarioDTO findById(UUID id) {
 		Optional<Usuario> usuario = repository.findById(id);
-		Usuario entity = usuario.orElse(null);
+		Usuario entity = usuario.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! "));
 		return new UsuarioDTO(entity, entity.getEnderecos());
 	}
 	
@@ -45,7 +46,7 @@ public class UsuarioService {
 	@Transactional
 	public UsuarioDTO update(UsuarioDTO usuarioDTO, UUID id) {
 		Usuario entity = repository.findById(id)
-				.orElse(null);
+				.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! "));
 		entity.setNome(usuarioDTO.getNome());
 		entity.setDataNascimento(usuarioDTO.getDataNascimento());
 		repository.save(entity);
@@ -55,7 +56,7 @@ public class UsuarioService {
 	@Transactional
 	public UsuarioDTO patch(UsuarioDTO usuarioDTO, UUID id) {
 		Usuario entity = repository.findById(id)
-				.orElse(null);
+				.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! "));
 		if (usuarioDTO.getNome() != null) {
             entity.setNome(usuarioDTO.getNome());
         }
