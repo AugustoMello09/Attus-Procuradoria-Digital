@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.model.Endereco;
+import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.model.enumerations.TipoEndereco;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +20,27 @@ public class EnderecoDTO implements Serializable {
 	
 	private UUID id;
 	private UUID usuarioId;
+	
+	@Size(max = 35, message = "tamanho máximo de 35 caracteres.")
+	@NotBlank(message = "Campo Obrigatório")
 	private String logradouro;
+	
+	@Size(max = 10, message = "tamanho máximo de 10 caracteres.")
+	@NotBlank(message = "Campo Obrigatório")
 	private String cep;
+	
+	@NotNull(message = "Campo Obrigatório")
 	private int numero;
+	
+	@Size(max = 35, message = "tamanho máximo de 35 caracteres.")
+	@NotBlank(message = "Campo Obrigatório")
 	private String estado;
+	
+	@Size(max = 35, message = "tamanho máximo de 35 caracteres.")
+	@NotBlank(message = "Campo Obrigatório")
 	private String cidade;
-	private Integer tipoEndereco;
+	
+	private TipoEndereco tipoEndereco;
 	
 	public EnderecoDTO() {}
 	
@@ -33,7 +52,7 @@ public class EnderecoDTO implements Serializable {
 		numero = entity.getNumero();
 		estado = entity.getEstado();
 		cidade = entity.getCidade();
-		tipoEndereco = entity.getTipoEndereco().getCod();
+		tipoEndereco = entity.getTipoEndereco();
 	}
 
 }
