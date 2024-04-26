@@ -17,23 +17,23 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
-	
+
 	private final UsuarioRepository repository;
-	
+
 	@Transactional(readOnly = true)
 	public UsuarioDTO findById(UUID id) {
 		Optional<Usuario> usuario = repository.findById(id);
 		Usuario entity = usuario.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! "));
 		return new UsuarioDTO(entity, entity.getEnderecos());
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<UsuarioDTO> listAll(){
+	public List<UsuarioDTO> listAll() {
 		List<Usuario> usuarios = repository.findAll();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(x -> new UsuarioDTO(x)).collect(Collectors.toList());
 		return usuariosDTO;
 	}
-	
+
 	@Transactional
 	public UsuarioDTO create(UsuarioDTO usuarioDTO) {
 		Usuario entity = new Usuario();
@@ -42,7 +42,7 @@ public class UsuarioService {
 		repository.save(entity);
 		return new UsuarioDTO(entity);
 	}
-	
+
 	@Transactional
 	public UsuarioDTO update(UsuarioDTO usuarioDTO, UUID id) {
 		Usuario entity = repository.findById(id)
@@ -52,17 +52,13 @@ public class UsuarioService {
 		repository.save(entity);
 		return new UsuarioDTO(entity);
 	}
-	
+
 	@Transactional
 	public UsuarioDTO patch(UsuarioDTO usuarioDTO, UUID id) {
 		Usuario entity = repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! "));
-		if (usuarioDTO.getNome() != null) {
-            entity.setNome(usuarioDTO.getNome());
-        }
-        if (usuarioDTO.getDataNascimento() != null) {
-            entity.setDataNascimento(usuarioDTO.getDataNascimento());
-        }
+		entity.setNome(usuarioDTO.getNome());
+		entity.setDataNascimento(usuarioDTO.getDataNascimento());
 		repository.save(entity);
 		return new UsuarioDTO(entity);
 	}

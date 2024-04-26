@@ -8,6 +8,7 @@ class AttusProcuradoriaDigitalApplicationTests {
 
 	@Test
 	void contextLoads() {
+		AttusProcuradoriaDigitalApplication.main(new String[] {});
 	}
 
 }
