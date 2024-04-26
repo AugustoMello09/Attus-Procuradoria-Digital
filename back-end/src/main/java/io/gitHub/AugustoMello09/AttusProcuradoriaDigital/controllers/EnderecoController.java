@@ -18,9 +18,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.dtos.EnderecoDTO;
 import io.gitHub.AugustoMello09.AttusProcuradoriaDigital.services.EnderecoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Attus Procuradoria Digital Endereço endpoint")
 @RestController
 @RequestMapping(value = "/v1/enderecos")
 @RequiredArgsConstructor
@@ -28,18 +31,21 @@ public class EnderecoController {
 	
 	private final EnderecoService service;
 	
+	@Operation(summary = "Retorna um Endereço DTO.")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EnderecoDTO> findById(@PathVariable UUID id){
 		var response = service.findById(id);
 		return ResponseEntity.ok().body(response);
 	}
 	
+	@Operation(summary = "Retorna uma lista de Endereços DTO.")
 	@GetMapping
 	public ResponseEntity<List<EnderecoDTO>> findAll(){
 		var response = service.findAll();
 		return ResponseEntity.ok().body(response);
 	}
 	
+	@Operation(summary = "Cria um endereço DTO.")
 	@PostMapping
 	public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTO dto) {
 		var newObj = service.create(dto);
@@ -47,12 +53,14 @@ public class EnderecoController {
 		return ResponseEntity.created(uri).body(newObj);
 	}
 	
+	@Operation(summary = "Atualiza completamente um endereço DTO.")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<EnderecoDTO> update(@Valid @RequestBody EnderecoDTO enderecoDTO, @PathVariable UUID id) {
 		service.update(enderecoDTO, id);
 		return ResponseEntity.ok().build();
 	}
 	
+	@Operation(summary = "Atualiza parcialmente um endereço DTO.")
 	@PatchMapping(value = "/{id}")
 	public ResponseEntity<EnderecoDTO> patchUpdate(@RequestBody Map<String, Object> fields, @PathVariable UUID id) {
 	    EnderecoDTO enderecoDTO = service.updatePatch(id, fields);
