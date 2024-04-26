@@ -11,7 +11,9 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -119,9 +121,12 @@ public class UsuarioServiceTeste {
 	@DisplayName("Deve aplicar com sucesso o patch de atualização em um usuário existente.")
 	@Test
 	public void shouldApplyPatchToUpdateUser() {
+		Map<String, Object> fields = new HashMap<>();
+		fields.put("nome", NOME);
+		fields.put("dataNascimento", DATA);
 		when(repository.findById(ID)).thenReturn(optionalUsuario);
 		when(repository.save(any(Usuario.class))).thenReturn(usuario);
-		var response = service.patch(usuarioDTO, ID);
+		var response = service.patch(ID, fields);
 		assertNotNull(response);
 		assertEquals(UsuarioDTO.class, response.getClass());
 		assertEquals(ID, response.getId());
@@ -134,8 +139,11 @@ public class UsuarioServiceTeste {
 	@DisplayName("Deve retornar usuário não encontrado ao tentar aplicar patch de atualização.")
 	@Test
 	public void shouldReturnUserNotFoundWhenApplyingPatchToUpdate() {
+		Map<String, Object> fields = new HashMap<>();
+		fields.put("nome", NOME);
+		fields.put("dataNascimento", DATA);
 		when(repository.findById(ID)).thenReturn(Optional.empty());
-		assertThrows(ObjectNotFoundException.class, () -> service.patch(usuarioDTO, ID));
+		assertThrows(ObjectNotFoundException.class, () -> service.patch(ID, fields));
 	}
 
 	@Test

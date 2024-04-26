@@ -2,6 +2,7 @@ package io.gitHub.AugustoMello09.AttusProcuradoriaDigital.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -54,8 +55,8 @@ public class UsuarioController {
 	}
 	
 	@PatchMapping(value = "/{id}")
-	public ResponseEntity<UsuarioDTO> patchUpdate(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable UUID id) {
-		service.patch(usuarioDTO, id);
+	public ResponseEntity<UsuarioDTO> patchUpdate(@RequestBody Map<String, Object> fields, @PathVariable UUID id) {
+		service.patch(id, fields);
 		return ResponseEntity.ok().build();
 	}
 	

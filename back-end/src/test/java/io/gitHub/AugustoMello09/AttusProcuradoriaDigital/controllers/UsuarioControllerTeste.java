@@ -7,7 +7,9 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -98,8 +100,11 @@ public class UsuarioControllerTeste {
 	@DisplayName("Deve conseguir atualizar parcialmete um usuário. ")
 	@Test
 	public void shouldPatchUpdateUser() {
-		when(usuarioService.patch(usuarioDTO, ID)).thenReturn(usuarioDTO);
-		ResponseEntity<UsuarioDTO> response = controller.patchUpdate(usuarioDTO, ID);
+		Map<String, Object> fields = new HashMap<>();
+	    fields.put("nome", NOME);
+	    fields.put("dataNascimento", DATA);
+	    when(usuarioService.patch(ID, fields)).thenReturn(usuarioDTO);
+	    ResponseEntity<UsuarioDTO> response = controller.patchUpdate(fields, ID);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
